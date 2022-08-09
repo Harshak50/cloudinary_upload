@@ -52,17 +52,21 @@ const HomePage = () => {
           </Stack>
         </Box>
 
-        <Box
+        <Box maxWidth="xs"
           sx={{
             bgcolor: "#fff",
             height: 300,
-            width: "40%",
+            '@media (min-width: 780px)' : {
+              width: 500,
+              transform: "translate(0%, -100%)",
+            },
+            width: 200,
             justifyContent: "center",
             border: "1px solid #fff",
             boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
             borderRadius: 5,
             fontSize: "0.875rem",
-            transform: "translate(0%, -100%)",
+            transform: "translate(0%, -60%)",
             fontWeight: "700",
             margin: "auto",
             zIndex: "modal",
