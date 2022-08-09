@@ -8,7 +8,6 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <Container>
         <Box
           maxWidth="md"
           sx={{
@@ -57,17 +56,14 @@ const HomePage = () => {
           sx={{
             bgcolor: "#fff",
             height: 300,
-            width: "35%",
+            width: "40%",
             justifyContent: "center",
             border: "1px solid #fff",
             boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
             borderRadius: 5,
             fontSize: "0.875rem",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            transform: "translate(0%, -100%)",
             fontWeight: "700",
-            top: "70%",
-            position: "absolute",
             margin: "auto",
             zIndex: "modal",
           }}
@@ -80,7 +76,6 @@ const HomePage = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 5,
-
               bgcolor: "#F5FAFB",
               height: 250,
               transform: "translate(0%, -3%)",
@@ -125,7 +120,6 @@ const HomePage = () => {
 
 
         </Box>
-      </Container>
     </>
   );
 };
