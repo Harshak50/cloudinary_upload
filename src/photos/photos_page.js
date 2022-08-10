@@ -15,7 +15,7 @@ useEffect(()=>{
 
         try{
         console.log("fetching")
-        var response = await axios.get(`https://crossorigin.me/https://api.cloudinary.com/v1_1/drbdcglkp/resources/image`,{
+        var response = await axios.get(`https://api.cloudinary.com/v1_1/drbdcglkp/resources/image`,{
             headers: {
                 'Access-Control-Allow-Origin':"*",
                 'Authorization': 'Basic ' + encode(API_KEY+":"+API_SECRET),
