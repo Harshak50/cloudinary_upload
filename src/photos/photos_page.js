@@ -15,7 +15,7 @@ useEffect(()=>{
 
         try{
         console.log("fetching")
-        var response = await axios.get(`https://api.cloudinary.com/v1_1/drbdcglkp/resources/image`,{
+        var response = await axios.get(`https://cors-anywhere.herokuapp.com/https://api.cloudinary.com/v1_1/drbdcglkp/resources/image`,{
             headers: {
                 'Authorization': 'Basic ' + encode(API_KEY+":"+API_SECRET),
               },
