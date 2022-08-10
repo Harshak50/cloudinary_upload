@@ -7,6 +7,7 @@ import HomePageBackground from "./home_bg";
 import folder from "../assets/folder.png";
 import CloseIcon from "@mui/icons-material/Close";
 
+
 const HomePage = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,13 +19,9 @@ const HomePage = () => {
   useEffect(() => {
     drop.current.addEventListener("dragover", handleDragOver);
     drop.current.addEventListener("drop", handleDrop);
-    return () => {
-      drop.current.removeEventListener("dragover", handleDragOver);
-      drop.current.removeEventListener("drop", handleDrop);
-    };
   }, []);
 
-  const uploadImage = (e) => {
+  const uploadImage =async (e) =>  {
     e.preventDefault();
     const formData = new FormData();
     console.log("Called upload image");
@@ -39,20 +36,20 @@ const HomePage = () => {
     console.log(formData.get("file"));
     console.log(formData.get("upload_preset"));
     setLoading(true);
-
     setAlertContent("Uploading File");
     setAlertSeverity("success");
     setAlert(true);
 
     try {
-      const data = fetch(
+      const data =await fetch(
         `https://api.cloudinary.com/v1_1/drbdcglkp/image/upload`,
         {
-          method: "POST",
+          method:"POST",
           body: formData,
         }
       );
       setLoading(false);
+      console.log(data);
       if (data.asset_id !== null) {
         setAlertContent("Successfully Uploaded Image");
         setAlertSeverity("success");

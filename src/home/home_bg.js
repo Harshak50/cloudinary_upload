@@ -15,7 +15,7 @@ const HomePageBackground = ()=>{
           zIndex: "tooltip",
           bgcolor: "#F5FAFB",
           height: 450,
-          margin: "7% auto",
+          margin: "6% auto",
           borderRadius: "20px",
         }}
       >

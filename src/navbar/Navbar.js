@@ -11,18 +11,18 @@ import MenuItem from "@mui/material/MenuItem";
 import "../App.css";
 import CloudOutlinedIcon from "@mui/icons-material/CloudOutlined";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["View Photos", "About", "Pricing"];
+const pages = ["Home","View Photos"];
 
 const Navbar = () => {
+  let navigate = useNavigate(); 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const pageHandler = (page) => {
-    <h2>Page</h2>;
-  };
+
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -74,7 +74,7 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={pageHandler({ page })}>
+                <MenuItem key={page} >
                   <Typography textAlign="center" fontFamily="Poppins" color="primary">
                     {page}
                   </Typography>
@@ -91,7 +91,6 @@ const Navbar = () => {
             }}
           >
             {pages.map((page, index) =>
-             
                 <Button
                   variant="outlined"
                   color="primary"
@@ -105,7 +104,12 @@ const Navbar = () => {
                     margin: "20px",
                     borderRadius: "5px",
                   }}
-                  onClick={pageHandler({ page })}
+                  onClick={()=>{
+                    if(page === "View Photos"){
+                      return navigate("/photos");
+                    }
+                    navigate("/"+page)
+                  }}
                 >
                   {page}
                 </Button>
