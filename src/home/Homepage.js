@@ -1,75 +1,49 @@
 import { Button, Typography } from "@mui/material";
-import { Box, Container, Stack } from "@mui/system";
+import { Box, Stack } from "@mui/system";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Navbar from "../navbar/Navbar";
 import "./Homepage.css";
-import img from "../assets/img.png";
+import HomePageBackground from "./home_bg";
+import folder from "../assets/folder.png";
+import CloseIcon from "@mui/icons-material/Close";
 
 const HomePage = () => {
+  const [file, setFile] = useState(null);
+  const drop = useRef(null);
+  useEffect(() => {
+    drop.current.addEventListener("dragover", handleDragOver);
+    drop.current.addEventListener("drop", handleDrop);
+    return () => {
+      drop.current.removeEventListener("dragover", handleDragOver);
+      drop.current.removeEventListener("drop", handleDrop);
+    };
+  }, []);
+
+  const changeHandler = (e) => {
+    setFile(e.target.files);
+    console.log(e.target.files);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFile(null);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { files } = e.dataTransfer;
+    if (files && files.length) {
+      setFile(files);
+      console.log(files);
+      console.log(files[0].name);
+    }
+  };
   return (
     <>
       <Navbar />
-      <Box
-        maxWidth="md"
-        sx={{
-          "@media (max-width: 800px)": {
-            width:350,
-            height:500
-          },
-          zIndex: "tooltip",
-          bgcolor: "#F5FAFB",
-          height: 450,
-          margin: "7% auto",
-          borderRadius: "20px",
-        }}
-      >
-        <Stack direction="row">
-
-          <img
-            alt="img"
-            src={img}
-            style={{
-              display: { xs: "none", md: "block" },
-              height: "15%",
-              width: "15%",
-              margin: "7% auto",
-              transform: "rotate(10deg)",
-            }}
-          ></img>
-
-          <Box sx={{ margin: "auto", marginLeft: "0%" }}>
-            <Typography
-              style={{
-                fontSize: "35px",
-                "@media (max-width: 500px)": {
-                  fontSize: "15px",
-                },
-              }}
-              color="primary"
-              fontFamily="Poppins"
-              className="upload_title"
-            >
-              Secure Cloud Storage &
-            </Typography>
-            <Typography
-              style={{
-                fontSize: "35px",
-                color: "#1B1A17",
-                "@media (max-width: 800px)": {
-                  fontSize: "15px",
-                },
-              }}
-              fontFamily="Poppins"
-              className="upload_title"
-            >
-              Media Platform
-            </Typography>
-            <Typography style={{ color: "#3a36e4" }}>
-              Grab Premium Account today. Check out our awesome deal!
-            </Typography>
-          </Box>
-        </Stack>
-      </Box>
-
+      <HomePageBackground />
       <Box
         maxWidth="xs"
         sx={{
@@ -91,55 +65,131 @@ const HomePage = () => {
           zIndex: "modal",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 5,
-            bgcolor: "#F5FAFB",
-            height: 250,
-            transform: "translate(0%, -3%)",
-            width: "88%%",
-            margin: "6%",
-          }}
-        >
-          <Stack direction="column">
-            <Typography
-              color="primary"
-              fontFamily="Poppins"
-              sx={{ color: "#cccccc", display: "block" }}
-            >
-              Drag & Drop files here to upload
-            </Typography>
-            <Button
-              variant="contained"
-              className="button"
-              fontFamily="Poppins"
+        {/* Drag and drop box */}
+        <Box ref={drop}>
+          {file === null ? (
+            <Stack
+              direction="column"
               sx={{
-                display: "block",
-                fontWeight: "500",
-                fontSize: "15px",
-                textTransform: "none",
-
-                margin: "20px",
-                borderRadius: "5px",
-                ":hover": {
-                  backgroundColor: "#ff5d3d",
-                  color: "#ffffff",
-                },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 5,
+                bgcolor: "#F5FAFB",
+                height: 250,
+                transform: "translate(0%, -3%)",
+                width: "88%%",
+                margin: "6%",
               }}
             >
-              {" "}
               <Typography
+                color="primary"
                 fontFamily="Poppins"
-                sx={{ color: "white", display: "block" }}
+                sx={{ color: "#cccccc", display: "block" }}
               >
                 {" "}
-                Upload Image
+                Drag & Drop files here to upload{" "}
               </Typography>
-            </Button>
-          </Stack>
+              <>
+                <Fragment>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="icon-button-file"
+                    style={{ display: "none" }}
+                    onChange={changeHandler}
+                  />
+                  <label htmlFor="icon-button-file">
+                    <Button
+                      variant="contained"
+                      fontFamily="Poppins"
+                      component="span"
+                      sx={{
+                        display: "block",
+                        fontWeight: "500",
+                        fontSize: "15px",
+                        textTransform: "none",
+                        margin: "20px",
+                        borderRadius: "5px",
+                        ":hover": {
+                          backgroundColor: "#ff5d3d",
+                          color: "#ffffff",
+                        },
+                      }}
+                    >
+                      <Typography
+                        fontFamily="Poppins"
+                        sx={{ color: "white", display: "block" }}
+                      >
+                        {" "}
+                        Browse Images
+                      </Typography>
+                    </Button>
+                  </label>
+                </Fragment>
+              </>
+            </Stack>
+          ) : (
+            <Stack direction="row">
+              <Stack direction="column"    maxWidth="xs" sx={{ margin: "5% auto" }} >
+                <Stack direction="row" sx={{ margin: "2% auto" }} >
+                  <img
+                    src={folder}
+                    style={{ height: "30px", width: "30px" }}
+                    alt="file"
+                  ></img>
+                  <Typography
+                    color="primary"
+                    sx={{
+                      margin: "auto",
+                      fontSize: "12px",
+                      paddingLeft: "10px",
+                    }}
+                    fontFamily="Poppins"
+                  >
+                    {file[0].name.toString()}
+                  </Typography>
+                </Stack>
+                <img 
+                  src={URL.createObjectURL(file[0])}
+                  style={{  height: 100, margin: "0% auto" }}
+                  alt="file"
+                ></img>
+                <Button
+                      variant="contained"
+                      fontFamily="Poppins"
+                      component="span"
+                      sx={{
+                        display: "block",
+                        fontWeight: "500",
+                        fontSize: "15px",
+                        textTransform: "none",
+                        margin: "5% auto",
+                        width:"60%",
+                        borderRadius: "5px",
+                        ":hover": {
+                          backgroundColor: "#ff5d3d",
+                          color: "#ffffff",
+                        },
+                      }}
+                    >
+                  Upload Image
+                </Button>
+              </Stack>
+              <CloseIcon
+                maxWidth="300"
+                onClick={() => {
+                  setFile(null);
+                }}
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "right",
+                  padding: "2%",
+                }}
+              ></CloseIcon>
+            </Stack>
+          )}
         </Box>
       </Box>
     </>
