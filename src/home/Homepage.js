@@ -1,6 +1,6 @@
-import { Button, Typography } from "@mui/material";
+import {  Alert, Button, CircularProgress, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import { Fragment, useEffect, useRef, useState } from "react";
+import {  Fragment, useEffect, useRef, useState } from "react";
 import Navbar from "../navbar/Navbar";
 import "./Homepage.css";
 import HomePageBackground from "./home_bg";
@@ -9,7 +9,12 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const HomePage = () => {
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("info");
   const drop = useRef(null);
+
   useEffect(() => {
     drop.current.addEventListener("dragover", handleDragOver);
     drop.current.addEventListener("drop", handleDrop);
@@ -18,6 +23,49 @@ const HomePage = () => {
       drop.current.removeEventListener("drop", handleDrop);
     };
   }, []);
+
+  const uploadImage = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    console.log("Called upload image");
+    if (file === null) {
+      setAlertContent("No File Selected");
+        setAlertSeverity("Warning");
+        setAlert(true);
+    }
+
+    formData.append("file", file[0]);
+    formData.append("upload_preset", "fnfhl9jd");
+    console.log(formData.get("file"));
+    console.log(formData.get("upload_preset"));
+    setLoading(true);
+
+    setAlertContent("Uploading File");
+    setAlertSeverity("success");
+    setAlert(true);
+
+    try {
+      const data = fetch(
+        `https://api.cloudinary.com/v1_1/drbdcglkp/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      setLoading(false);
+      if (data.asset_id !== null) {
+        setAlertContent("Successfully Uploaded Image");
+        setAlertSeverity("success");
+        setAlert(true);
+      }
+      setFile(null);
+    } catch (error) {
+      setLoading(false);
+      setAlertContent("Failed to upload Image ");
+        setAlertSeverity("error");
+        setAlert(true);
+    }
+  };
 
   const changeHandler = (e) => {
     setFile(e.target.files);
@@ -42,8 +90,17 @@ const HomePage = () => {
   };
   return (
     <>
+     
       <Navbar />
       <HomePageBackground />
+      {alert  &&
+       <Alert
+            severity={alertSeverity}
+            onClose = {()=>{setAlert(false)}}
+            sx={{ width: "25%" }} >
+           {alertContent}
+          </Alert>
+    }
       <Box
         maxWidth="xs"
         sx={{
@@ -65,7 +122,7 @@ const HomePage = () => {
           zIndex: "modal",
         }}
       >
-        {/* Drag and drop box */}
+           {/* Drag and drop box */}
         <Box ref={drop}>
           {file === null ? (
             <Stack
@@ -131,8 +188,12 @@ const HomePage = () => {
             </Stack>
           ) : (
             <Stack direction="row">
-              <Stack direction="column"    maxWidth="xs" sx={{ margin: "5% auto" }} >
-                <Stack direction="row" sx={{ margin: "2% auto" }} >
+              <Stack
+                direction="column"
+                maxWidth="xs"
+                sx={{ margin: "5% auto" }}
+              >
+                <Stack direction="row" sx={{ margin: "2% auto" }}>
                   <img
                     src={folder}
                     style={{ height: "30px", width: "30px" }}
@@ -150,30 +211,36 @@ const HomePage = () => {
                     {file[0].name.toString()}
                   </Typography>
                 </Stack>
-                <img 
+                <img
                   src={URL.createObjectURL(file[0])}
-                  style={{  height: 100, margin: "0% auto" }}
+                  style={{ height: 100, margin: "0% auto" }}
                   alt="file"
                 ></img>
                 <Button
-                      variant="contained"
-                      fontFamily="Poppins"
-                      component="span"
-                      sx={{
-                        display: "block",
-                        fontWeight: "500",
-                        fontSize: "15px",
-                        textTransform: "none",
-                        margin: "5% auto",
-                        width:"60%",
-                        borderRadius: "5px",
-                        ":hover": {
-                          backgroundColor: "#ff5d3d",
-                          color: "#ffffff",
-                        },
-                      }}
-                    >
-                  Upload Image
+                  variant="contained"
+                  fontFamily="Poppins"
+                  component="span"
+                  onClick={uploadImage}
+                  sx={{
+                    display: "block",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    textTransform: "none",
+                    margin: "12% auto",
+                    width: "65%",
+                    borderRadius: "5px",
+                    ":hover": {
+                      backgroundColor: "#ff5d3d",
+                      color: "#ffffff",
+                    },
+                  }}
+                >
+                {  loading ?(<Box sx={{ display: 'flex', justifyContent:"center" }}>
+                        <CircularProgress size="1.5rem" sx={{color:"#fff"}} />
+                       </Box>)
+                :  <Typography>Upload Image</Typography>
+}
+    
                 </Button>
               </Stack>
               <CloseIcon
