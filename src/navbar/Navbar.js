@@ -75,7 +75,12 @@ const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} >
-                  <Typography textAlign="center" fontFamily="Poppins" color="primary">
+                  <Typography textAlign="center" fontFamily="Poppins" color="primary"  onClick={()=>{
+                    if(page === "View Photos"){
+                      return navigate("/photos");
+                    }
+                    navigate("/"+page)
+                  }}>
                     {page}
                   </Typography>
                 </MenuItem>
