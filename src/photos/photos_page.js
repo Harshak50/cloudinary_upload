@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "../navbar/Navbar"
-import { encode } from "base-64";
 import axios from "axios";
+import { Container} from "@mui/system";
 
 
-const PhotosPage = ()=>{
-
-
-const [images,setImages] =useState([])   
+const PhotosPage = ()=>{ 
 const [res,setRes]=useState([]);
 const fetchImages =async ()=>{
     try{
@@ -30,9 +27,10 @@ return(
 <>
 
 <Navbar></Navbar>
-<h1>photos</h1>
 {res.map(element => (
-    <img src ={element.url} alt='alternative image' style={{height:"300px",margin:"20px"}} />
+    <Container sx={{maxWidth:300, display:"inline"}}>
+ <img src ={element.url} alt="img" style={{margin:"2% auto", marginBottom:"10px" ,width:300, height:200,boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',borderRadius:4}} />
+ </Container>
 ))}
 </>
 );
