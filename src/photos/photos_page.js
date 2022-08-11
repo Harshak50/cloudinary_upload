@@ -48,7 +48,7 @@ return(
     }
 {res.map(element => (
     <Container sx={{maxWidth:300, display:"inline"}}>
- <img src ={element.url} alt="img" style={{margin:"2% auto", marginBottom:"10px" ,width:300, height:200,boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',borderRadius:4}} />
+ <img src ={element.url} alt="img" style={{margin:"2% auto", marginBottom:"10px" ,width:300, height:170,boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',borderRadius:4}} />
  </Container>
 ))}
 </>
