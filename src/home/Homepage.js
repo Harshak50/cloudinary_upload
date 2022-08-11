@@ -33,6 +33,7 @@ const HomePage = () => {
 
     formData.append("file", file[0]);
     formData.append("upload_preset", "fnfhl9jd");
+    formData.append("tags", "f");
     console.log(formData.get("file"));
     console.log(formData.get("upload_preset"));
     setLoading(true);
