@@ -36,8 +36,8 @@ const HomePage = () => {
     console.log(formData.get("file"));
     console.log(formData.get("upload_preset"));
     setLoading(true);
-    setAlertContent("Uploading File");
-    setAlertSeverity("success");
+    setAlertContent("Uploading Image");
+    setAlertSeverity("info");
     setAlert(true);
 
     try {
