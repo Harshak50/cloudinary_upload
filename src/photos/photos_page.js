@@ -16,14 +16,14 @@ const PhotosPage = () => {
     setAlert(true);
     try {
       console.log("fetching");
-      var response = await axios.get(
-        `https://fathomless-fjord-33378.herokuapp.com/getAllImages`
-      );
+       await fetch(
+        `https://fathomless-fjord-33378.herokuapp.com/getAllImages`,
+        {method:"GET"}
+      ).then((response) => response.json())
+      .then((actualData) => setRes(actualData.resources));
       setAlertContent("Fetched Images");
       setAlertSeverity("success");
       setAlert(true);
-      const data = response.data.resources;
-      setRes(data);
     } catch (e) {
       console.log(e);
       setAlertContent("Failed to Fetch Images");
@@ -44,7 +44,13 @@ const PhotosPage = () => {
           onClose={() => {
             setAlert(false);
           }}
-          sx={{ width: "25%" }}
+          sx={{ "@media (max-width: 500px)": {
+            width: "80%"
+          },
+           "@media (min-width: 500px)": {
+            width: "25%"
+          }
+        }}
         >
           {alertContent}
         </Alert>
@@ -59,7 +65,7 @@ const PhotosPage = () => {
             borderRadius: 4}}
             alt="img"
             height={170}
-            src={element.url} // use normal <img> attributes as props
+            src={element.secure_url} // use normal <img> attributes as props
             width={300} />
         
         )}
