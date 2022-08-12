@@ -3,6 +3,7 @@ import Navbar from "../navbar/Navbar";
 import axios from "axios";
 import { Container } from "@mui/system";
 import { Alert } from "@mui/material";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const PhotosPage = () => {
   const [res, setRes] = useState([]);
@@ -49,20 +50,19 @@ const PhotosPage = () => {
         </Alert>
       )}
       {res.map((element) => (
-        <Container sx={{ maxWidth: 300, display: "inline" }}>
-          <img
-          loading="lazy"
-            src={element.url}
+        <Container sx={{ maxWidth: 300, display: "inline",  }}>
+        { element.url && (
+            <LazyLoadImage
+            style={{ margin: "1% auto",
+            marginBottom: "10px",
+            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+            borderRadius: 4}}
             alt="img"
-            style={{
-              margin: "2% auto",
-              marginBottom: "10px",
-              width: 300,
-              height: 170,
-              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-              borderRadius: 4,
-            }}
-          />
+            height={170}
+            src={element.url} // use normal <img> attributes as props
+            width={300} />
+        
+        )}
         </Container>
       ))}
     </>
