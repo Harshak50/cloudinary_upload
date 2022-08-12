@@ -51,6 +51,7 @@ const PhotosPage = () => {
       {res.map((element) => (
         <Container sx={{ maxWidth: 300, display: "inline" }}>
           <img
+          loading="lazy"
             src={element.url}
             alt="img"
             style={{
