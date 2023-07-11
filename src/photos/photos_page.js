@@ -17,7 +17,7 @@ const PhotosPage = () => {
     try {
       console.log("fetching");
        await fetch(
-        `https://fathomless-fjord-33378.herokuapp.com/getAllImages`,
+        `https://cloudinary-service.onrender.com/getAllImages`,
         {method:"GET"}
       ).then((response) => response.json())
       .then((actualData) => setRes(actualData.resources));
